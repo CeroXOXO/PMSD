@@ -1,40 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import "../styles/Login.css";  // Updated CSS file
 
-const Dashboard = ({ onLogout }) => {
+const Login = ({ onLogin }) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    // Function to handle user logout
-    const handleLogout = async () => {
-        try {
-            // Retrieve authentication token from localStorage
-            const token = localStorage.getItem("token");
+    const handleLogin = async (e) => {
+        e.preventDefault();
 
-            // Send logout request to the API
-            await fetch("http://127.0.0.1:8000/api/logout", {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/login", {
                 method: "POST",
-                headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
             });
 
-            // Call the onLogout function to clear authentication state
-            onLogout();
+            const data = await response.json();
 
-            // Redirect user to the home page after logout
-            navigate("/");
+            if (response.ok) {
+                // Store token and role in localStorage
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("role", data.user.role); // Assuming API returns user role
+
+                onLogin(data.token);
+                navigate("/dashboard");
+            } else {
+                setError(data.message || "Login failed");
+            }
         } catch (error) {
-            console.error("Logout failed", error);
+            setError("Server error");
         }
     };
 
     return (
-        <div className="container">
-            <h2>Dashboard</h2>
-            <p>Welcome! You are logged in.</p>
-            {/* Logout button triggers handleLogout function */}
-            <button onClick={handleLogout}>Logout</button>
+        <div className="login-container">
+            <div className="login-box">
+                <div className="design-section">
+                    <h1 className="welcome-text">Welcome!</h1>
+                </div>
+
+                <div className="form-section">
+                    <h1>Meng Production</h1>
+                    <form onSubmit={handleLogin} className="login-form">
+                        {error && <p className="error-message">{error}</p>}
+
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            className="input-field"
+                        />
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className="input-field"
+                        />
+
+                        <button type="submit" className="submit-button">Login</button>
+                    </form>
+                    <button 
+                        onClick={() => navigate("/register")} 
+                        className="register-button"
+                    >
+                        Register in Meng Production
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default Dashboard;
+export default Login;

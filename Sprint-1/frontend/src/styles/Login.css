@@ -1,0 +1,88 @@
+/* Overall Container */
+.login-container {
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(145deg, #d3cce3, #e9e4f0); /* Soft pastel gradient */
+    padding: 20px;
+}
+
+/* Main Box */
+.login-box {
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+    background: #f7f7f7;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 9px 9px 16px #c8c8c8, -9px -9px 16px #ffffff;
+    align-items: center;
+}
+
+/* Welcome Text */
+.login-box h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #341f97;
+}
+
+/* Error */
+.error-message {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 15px;
+    background: #e0e0e0;
+    box-shadow: inset 6px 6px 12px #bebebe, inset -6px -6px 12px #ffffff;
+    font-size: 14px;
+    transition: 0.3s ease-in-out;
+}
+
+.input-field:focus {
+    outline: none;
+    background: #f0f0f0;
+    box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+}
+
+/* Buttons */
+.submit-button,
+.register-button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 16px;
+    background: #341f97;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 6px 6px 12px #bdbdbd, -6px -6px 12px #ffffff;
+    transition: all 0.3s ease-in-out;
+}
+
+.submit-button:hover,
+.register-button:hover {
+    background: #5f27cd;
+}
+
+/* Optional Additions */
+@media (max-width: 480px) {
+    .login-box {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .login-box h1 {
+        font-size: 24px;
+    }
+}
